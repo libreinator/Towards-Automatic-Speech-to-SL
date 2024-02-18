@@ -13,6 +13,7 @@ data:
     src_fps: 100 # Source FPS
     trg_fps: 25  # Target FPS
     num_sec: 6 # max audio length in input
+    max_sent_length: 300
 
 training:
     random_seed: 27   # Random seed for initialisation
