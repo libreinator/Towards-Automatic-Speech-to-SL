@@ -4,9 +4,9 @@ data:
     src: "audio"    ## Source - audio features
     files: "files"    # Filenames for each sequence
 
-    train: "../train_data_text.pth.tar"  # tar data files for training  
-    dev: "../dev_data_text.pth.tar"  # tar data files for validating
-    test: "../test_data_text.pth.tar" # tar data files for testing
+    train: "../data_aud_text/train"  # tar data files for training  
+    dev: "../data_aud_text/dev"  # tar data files for validating
+    test: "../data_aud_text/test" # tar data files for testing
 
     skip_frames: 1   # Skip frames in the data, to reduce the data input size
     nonreg_trg_voc_min_freq: 1
