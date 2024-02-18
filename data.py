@@ -72,7 +72,7 @@ def load_data(cfg: dict, mode='train') -> (Dataset, Dataset, Optional[Dataset],
 
     level = "char" #"word"
     lowercase = False
-    max_sent_length = data_cfg["max_output_length"]
+    max_sent_length = data_cfg["max_sent_length"]
     
     # Target size is plus one due to the counter required for the model
     src_size = cfg["model"]["src_size"]
