@@ -339,7 +339,6 @@ class SignProdDataset(data.Dataset):
                 )
                 num_vids += 1
 
-            print("Num of {} videos is {}".format(path.split("/")[-1], num_vids))
         except:
             src_fps, trg_fps = 100, 25
             num_vids = 0
@@ -401,5 +400,6 @@ class SignProdDataset(data.Dataset):
                             fields,
                         )
                     )
+        print("Num of {} videos is {}".format(path.split("/")[-1], num_vids))
 
         super(SignProdDataset, self).__init__(examples, fields, **kwargs)
