@@ -397,8 +397,8 @@ class SignProdDataset(data.Dataset):
                     examples.append(
                         data.Example.fromlist(
                             [
-                                src[:],
-                                trg[: num_sec * trg_fps],
+                                src_line[:],
+                                trg_frames[: num_sec * trg_fps],
                                 nonreg_trg_line,
                                 file_paths,
                             ],
