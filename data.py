@@ -341,6 +341,8 @@ class SignProdDataset(data.Dataset):
 
             print("Num of {} videos is {}".format(path.split("/")[-1], num_vids))
         except:
+            src_fps, trg_fps = 100, 25
+            num_vids = 0
             # Extract the parallel src, trg and file files
             with io.open(src_path, mode="r", encoding="utf-8") as src_file, io.open(
                 trg_path, mode="r", encoding="utf-8"
@@ -366,24 +368,38 @@ class SignProdDataset(data.Dataset):
 
                     # Split target into joint coordinate values
                     trg_line = trg_line.split(" ")
+                    src_line = src_line.split(" ")
                     if len(trg_line) == 1:
                         continue
                     # Turn each joint into a float value, with 1e-8 for numerical stability
-                    trg_line = [(float(joint) + 1e-8) for joint in trg_line]
+                    trg_line = np.array([(float(joint) + 1e-8) for joint in trg_line])
+                    src_line = np.array([(float(joint) for joint in trg_line)])
                     # Split up the joints into frames, using trg_size as the amount of coordinates in each frame
                     # If using skip frames, this just skips over every Nth frame
                     trg_frames = [
                         trg_line[i : i + trg_size]
                         for i in range(0, len(trg_line), trg_size * skip_frames)
                     ]
+                    if src_line.shape[0] > src_fps * num_sec:
+                        continue
+                    src_wrds = nonreg_trg_line.split(" ")
+                    lemma = []
+                    for w in src_wrds:
+                        if wordnet_lemmatizer.lemmatize(w) == "wa":
+                            lemma.append(w)
+                        elif wordnet_lemmatizer.lemmatize(w) == "ha":
+                            lemma.append(w)
+                        else:
+                            lemma.append(wordnet_lemmatizer.lemmatize(w))
+
+                    nonreg_trg_line = " ".join(lemma)
 
                     # Create a dataset examples out of the Source, Target Frames and FilesPath
-                    if src_line != "" and trg_line != "" and nonreg_trg_line != "":
-                        examples.append(
-                            data.Example.fromlist(
-                                [src_line, trg_frames, nonreg_trg_line, files_line],
-                                fields,
-                            )
+                    examples.append(
+                        data.Example.fromlist(
+                            [src_line, trg_frames, nonreg_trg_line, files_line],
+                            fields,
                         )
+                    )
 
         super(SignProdDataset, self).__init__(examples, fields, **kwargs)
