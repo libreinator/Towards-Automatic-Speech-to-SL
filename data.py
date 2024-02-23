@@ -340,7 +340,7 @@ class SignProdDataset(data.Dataset):
                 num_vids += 1
 
             print("Num of {} videos is {}".format(path.split("/")[-1], num_vids))
-        except FileNotFoundError:
+        except:
             # Extract the parallel src, trg and file files
             with io.open(src_path, mode="r", encoding="utf-8") as src_file, io.open(
                 trg_path, mode="r", encoding="utf-8"
