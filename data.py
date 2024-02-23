@@ -286,7 +286,7 @@ class SignProdDataset(data.Dataset):
             Remaining keyword arguments: Passed to the constructor of
                 data.Dataset.
         """
-
+        print("SignProdDataset", locals())
         if not isinstance(fields[0], (tuple, list)):
             fields = [
                 ("src", fields[0]),
@@ -396,10 +396,16 @@ class SignProdDataset(data.Dataset):
                     # Create a dataset examples out of the Source, Target Frames and FilesPath
                     examples.append(
                         data.Example.fromlist(
-                            [src_line, trg_frames, nonreg_trg_line, files_line],
+                            [
+                                src[:],
+                                trg[: num_sec * trg_fps],
+                                nonreg_trg_line,
+                                file_paths,
+                            ],
                             fields,
                         )
                     )
+                    num_vids += 1
         print("Num of {} videos is {}".format(path.split("/")[-1], num_vids))
 
         super(SignProdDataset, self).__init__(examples, fields, **kwargs)
