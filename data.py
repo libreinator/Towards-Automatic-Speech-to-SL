@@ -400,7 +400,7 @@ class SignProdDataset(data.Dataset):
                                 src_line[:],
                                 trg_frames[: num_sec * trg_fps],
                                 nonreg_trg_line,
-                                file_paths,
+                                files_line,
                             ],
                             fields,
                         )
